@@ -1,12 +1,11 @@
 pipeline {
+  agent any
 
   environment {
-    registry = "10.138.0.3:5001/pradeepnt/flask"
-    registry_mysql = "10.138.0.3:5001/pradeepnt/mysql"
+    registry = "10.138.0.3:5001/mgsgoms/flask"
+    registry_mysql = "10.138.0.3:5001/mgsgoms/mysql"
     dockerImage = ""
   }
-
-  agent any
     stages {
   
     stage('Checkout Source') {
@@ -42,8 +41,8 @@ pipeline {
    }
    stage('Build mysql image') {
      steps{
-       sh 'docker build -t "10.138.0.3:5001/pradeepnt/mysql:$BUILD_NUMBER"  "$WORKSPACE"/mysql'
-        sh 'docker push "10.138.0.3:5001/pradeepnt/mysql:$BUILD_NUMBER"'
+       sh 'docker build -t "10.138.0.3:5001/mgsgoms/mysql:$BUILD_NUMBER"  "$WORKSPACE"/mysql'
+        sh 'docker push "10.138.0.3:5001/mgsgoms/mysql:$BUILD_NUMBER"'
         }
       }
     stage('Deploy App') {
