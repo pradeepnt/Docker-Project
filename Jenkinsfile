@@ -2,8 +2,8 @@ pipeline {
   agent any
 
   environment {
-    registry = "10.138.0.3:5001/mgsgoms/flask"
-    registry_mysql = "10.138.0.3:5001/mgsgoms/mysql"
+    registry = "pradeepnakalraju99/flask"
+    registry_mysql = "pradeepnakalraju99/mysql"
     dockerImage = ""
   }
     stages {
