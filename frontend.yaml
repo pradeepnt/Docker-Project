@@ -16,7 +16,7 @@ spec:
       app: frontend
    spec:
     containers:
-    - image: 10.138.0.3:5001/mgsgoms/flask:${BUILD_NUMBER}
+    - image: pradeepnakalraju99/flask:${BUILD_NUMBER}
       name: frontend
 
 ---
@@ -49,7 +49,7 @@ spec:
           run: backend
      spec:
         containers:
-        - image: 10.138.0.3:5001/mgsgoms/mysql:${BUILD_NUMBER}
+        - image: pradeepnakalraju99/mysql:${BUILD_NUMBER}
           imagePullPolicy: IfNotPresent
           args: ["--default-authentication-plugin=mysql_native_password"]
           name: backend
@@ -61,6 +61,13 @@ spec:
         schedulerName: default-scheduler
         securityContext: {}
         terminationGracePeriodSeconds: 30
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: /var/lib/mysql/data
+        volumes:
+        - name: wordpress-persistent-storage
+          persistentVolumeClaim:
+          claimName: wp-pv-claim
 ---
 apiVersion: v1
 kind: Service
@@ -96,3 +103,16 @@ spec:
     run: backend
   sessionAffinity: None
   type: ClusterIP
+---
+  apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wp-pv-claim
+  labels:
+    app: backend
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi 
