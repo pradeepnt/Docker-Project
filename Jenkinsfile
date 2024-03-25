@@ -22,11 +22,11 @@ agent any
       }
     }
 
-    stage('Push Image') {
+    stage('Push Flask Image') {
       steps{
         script {
           docker.withRegistry( [ credentialsId: "dockerhub-id", url: "" ] ) {
-            dockerImage.push()
+            dockerImage.push(registry)
           }
         }
       }
