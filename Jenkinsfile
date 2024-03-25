@@ -1,11 +1,11 @@
 pipeline {
-  agent any
-
   environment {
     registry = "pradeepnakalraju99/flask"
     registry_mysql = "pradeepnakalraju99/mysql"
     dockerImage = ""
   }
+
+agent any
     stages {
   
     stage('Checkout Source') {
@@ -17,7 +17,7 @@ pipeline {
     stage('Build image') {
       steps{
         script {
-          dockerImage = docker.build(".", "${registry}:${BUILD_NUMBER}")
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
       }
     }
@@ -25,7 +25,7 @@ pipeline {
     stage('Push Image') {
       steps{
         script {
-          docker.withRegistry( "" ) {
+          docker.withRegistry( [ credentialsId: "dockerhub-id", url: "" ] ) {
             dockerImage.push()
           }
         }
@@ -39,12 +39,32 @@ pipeline {
           }
       }
    }
-   stage('Build mysql image') {
+
+  stage('Build mysql image') {
      steps{
-       sh 'docker build -t "10.138.0.3:5001/mgsgoms/mysql:$BUILD_NUMBER"  "$WORKSPACE"/mysql'
-        sh 'docker push "10.138.0.3:5001/mgsgoms/mysql:$BUILD_NUMBER"'
+        script { 
+       withDockerRegistry([ credentialsId: "dockerhub2", url: "" ]) {
+       sh 'docker build -t "pradeepnakalraju99/mysql:$BUILD_NUMBER"  "$WORKSPACE"/mysql'
+       
+       sh 'docker push "pradeepnakalraju99/mysql:$BUILD_NUMBER"'
+        }
+      }}}
+      
+    stage('Push MySQL Image') {
+      steps{
+        script {
+          withDockerRegistry([ credentialsId: "dockerhub2", url: "" ]) {
+            dockerImage.push("registry_mysql")
+          }
         }
       }
+    }
+   // stage('Build mysql image') {
+   //   steps{
+   //     sh 'docker build -t "10.138.0.3:5001/mgsgoms/mysql:$BUILD_NUMBER"  "$WORKSPACE"/mysql'
+   //      sh 'docker push "10.138.0.3:5001/mgsgoms/mysql:$BUILD_NUMBER"'
+   //      }
+   //    }
     stage('Deploy App') {
       steps {
         script {
