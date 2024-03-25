@@ -25,8 +25,8 @@ agent any
     stage('Push Flask Image') {
       steps{
         script {
-          docker.withRegistry( [ credentialsId: "dockerhub-id", url: "" ] ) {
-            dockerImage.push(registry)
+          withDockerRegistry([ credentialsId: "dockerhub-id", url: "" ]) {
+            dockerImage.push()
           }
         }
       }
