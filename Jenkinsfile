@@ -1,7 +1,7 @@
 pipeline {
   environment {
-    registry = "pradeepnakalraju99/flask"
-    registry_mysql = "pradeepnakalraju99/mysql"
+    registry = "docker.io/pradeepnakalraju99/flask"
+    registry_mysql = "docker.io/pradeepnakalraju99/mysql"
     dockerImage = ""
   }
 
@@ -44,9 +44,9 @@ agent any
      steps{
         script { 
        withDockerRegistry([ credentialsId: "dockerhub2", url: "" ]) {
-       sh 'docker build -t "pradeepnakalraju99/mysql:$BUILD_NUMBER"  "$WORKSPACE"/mysql'
+       sh 'docker build -t "docker.io/pradeepnakalraju99/mysql:$BUILD_NUMBER"  "$WORKSPACE"/mysql'
        
-       sh 'docker push "pradeepnakalraju99/mysql:$BUILD_NUMBER"'
+       sh 'docker push "docker.io/pradeepnakalraju99/mysql:$BUILD_NUMBER"'
         }
       }}}
       
