@@ -43,7 +43,7 @@ agent any
   stage('Build mysql image') {
      steps{
         script { 
-       withDockerRegistry([ credentialsId: "dockerhub2", url: "" ]) {
+       withDockerRegistry([ credentialsId: "dockerhub-id", url: "" ]) {
        sh 'docker build -t "docker.io/pradeepnakalraju99/mysql:$BUILD_NUMBER"  "$WORKSPACE"/mysql'
        
        sh 'docker push "docker.io/pradeepnakalraju99/mysql:$BUILD_NUMBER"'
@@ -53,7 +53,7 @@ agent any
     stage('Push MySQL Image') {
       steps{
         script {
-          withDockerRegistry([ credentialsId: "dockerhub2", url: "" ]) {
+          withDockerRegistry([ credentialsId: "dockerhub-id", url: "" ]) {
             dockerImage.push("registry_mysql")
           }
         }
