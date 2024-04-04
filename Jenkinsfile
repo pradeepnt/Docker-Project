@@ -68,7 +68,7 @@ agent any
     stage('Deploy App') {
       steps {
         script {
-          kubernetesDeploy(configs: "frontend.yaml", kubeconfigId: "Jenkins-Kubernetes")
+          kubernetesDeploy(configs: "frontend.yaml", kubeconfigId: "kube")
         }
       }
     }
