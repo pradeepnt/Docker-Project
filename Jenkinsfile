@@ -72,16 +72,15 @@ agent any
     //     }
     //   }
     // }
- stage('Deploy App') {
-  steps {
-    script {
-      withCredentials([file(credentialsId: 'kubernetes-token', variable: 'KUBECONFIG')]) {
-       
-        sh 'kubectl apply -f frontend.yaml'
-      }
-    }
-  }
-}
+    stage('Deploy App') {
+      steps {
+        script {
+          withCredentials([file(credentialsId: 'kubernetes-token', variable: 'KUBECONFIG')]) {
+          sh 'kubectl apply -f frontend.yaml'
+         }
+      }
+    }
+  }
 
   }
 
