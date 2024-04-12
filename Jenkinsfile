@@ -1,6 +1,5 @@
 pipeline {
   environment {
-    KUBE_TOKEN = credentials('kubernetes-token')
     registry = "docker.io/pradeepnakalraju99/flask"
     registry_mysql = "docker.io/pradeepnakalraju99/mysql"
     dockerImage = ""
