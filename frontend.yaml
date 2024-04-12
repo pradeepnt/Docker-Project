@@ -16,7 +16,7 @@ spec:
       app: frontend
    spec:
     containers:
-    - image: pradeepnakalraju99/flask:${BUILD_NUMBER}
+    - image: nginx
       name: frontend
 
 ---
