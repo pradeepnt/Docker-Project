@@ -77,7 +77,6 @@ agent any
         script {
           withCredentials([file(credentialsId: 'kubernetes-token', variable: 'KUBECONFIG')]) {
           sh 'kubectl apply -f frontend.yaml'
-         }
       }
     }
   }
