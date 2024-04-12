@@ -1,5 +1,6 @@
 pipeline {
   environment {
+    KUBE_TOKEN = credentials('kubernetes-token')
     registry = "docker.io/pradeepnakalraju99/flask"
     registry_mysql = "docker.io/pradeepnakalraju99/mysql"
     dockerImage = ""
@@ -75,8 +76,11 @@ agent any
     stage('Deploy App') {
       steps {
         script {
-          withCredentials([file(credentialsId: 'kubernetes-token', variable: 'KUBECONFIG')]) {
-          sh 'kubectl apply -f frontend.yaml'
+          sh """
+            kubectl config set-credentials jenkins --token=\${KUBE_TOKEN}
+            kubectl config set-context --current --user=pradeep
+            kubectl apply -f frontend.yaml
+            """
         }
       }
     }
