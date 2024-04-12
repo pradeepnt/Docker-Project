@@ -78,7 +78,7 @@ agent any
         script {
           sh """
             kubectl config set-credentials jenkins --token=\${KUBE_TOKEN}
-            kubectl apply -f frontend.yaml --context pradeep
+            kubectl apply -f frontend.yaml
             """
         }
       }
