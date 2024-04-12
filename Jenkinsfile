@@ -65,13 +65,23 @@ agent any
    //      sh 'docker push "10.138.0.3:5001/mgsgoms/mysql:$BUILD_NUMBER"'
    //      }
    //    }
-    stage('Deploy App') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "frontend.yaml", kubeconfigId: "kubernetes-token")
-        }
-      }
-    }
+    // stage('Deploy App') {
+    //   steps {
+    //     script {
+    //       kubernetesDeploy(configs: "frontend.yaml", kubeconfigId: "kubernetes-token")
+    //     }
+    //   }
+    // }
+ stage('Deploy App') {
+  steps {
+    script {
+      withCredentials([file(credentialsId: 'kubernetes-token', variable: 'KUBECONFIG')]) {
+       
+        sh 'kubectl apply -f frontend.yaml'
+      }
+    }
+  }
+}
 
   }
 
